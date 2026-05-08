@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CC Analytics — GTR-JOSEJARA</title>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0d1117;--card:#1a2332;--c2:#161b22;--bd:#30363d;--tx:#c9d1d9;--mu:#8b949e;
+--bl:#17a2b8;--gr:#28a745;--ye:#ffc107;--re:#dc3545;--pu:#6f42c1;--or:#fd7e14;--te:#20c997;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;}
+.hdr{background:linear-gradient(135deg,#161b22,#0d1117);border-bottom:1px solid var(--bd);
+  padding:13px 22px;display:flex;justify-content:space-between;align-items:center;
+  position:sticky;top:0;z-index:999;}
+.hdr h1{font-size:1.3rem;font-weight:800;color:#fff;}
+.hdr p{color:var(--mu);font-size:.76rem;margin-top:2px;}
+.hbg{background:#0d2137;border:1px solid var(--bl);border-radius:20px;
+  padding:4px 12px;font-size:.74rem;color:var(--bl);}
+.wrap{max-width:1580px;margin:0 auto;padding:16px 22px;}
+.fbar{background:var(--card);border:1px solid var(--bd);border-radius:12px;
+  padding:13px 16px;margin-bottom:16px;display:flex;align-items:flex-start;
+  gap:14px;flex-wrap:wrap;}
+.fg{display:flex;flex-direction:column;gap:5px;}
+.fl{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);}
+.bg{display:flex;gap:4px;flex-wrap:wrap;}
+.fb{padding:5px 11px;border-radius:7px;border:1.5px solid var(--bd);
+  background:var(--c2);color:var(--mu);font-family:'Inter',sans-serif;
+  font-size:.77rem;font-weight:600;cursor:pointer;transition:all .15s;}
+.fb:hover{border-color:var(--bl);color:var(--bl);}
+.fb.ay{background:#0d2137;border-color:var(--bl);color:var(--bl);}
+.fb.am{background:#0a2e1a;border-color:var(--gr);color:#06d6a0;}
+.fb.ac{background:#1a0a2e;border-color:var(--pu);color:#b39ddb;}
+.fdv{width:1px;background:var(--bd);align-self:stretch;margin:0 2px;}
+.fsm{margin-left:auto;background:#0d2137;border:1px solid var(--bl);
+  border-radius:8px;padding:5px 11px;font-size:.76rem;color:var(--bl);
+  font-weight:600;white-space:nowrap;align-self:center;}
+.kg{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:16px;}
+.kc{background:var(--card);border-radius:10px;padding:13px;
+  border-left:4px solid var(--bl);display:flex;align-items:center;gap:10px;}
+.ki{font-size:1.7rem;}
+.kv{font-size:1.6rem;font-weight:800;line-height:1;}
+.kl{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);margin-top:2px;}
+.ks{font-size:.67rem;color:#6c757d;margin-top:1px;}
+.tabs{display:flex;gap:3px;border-bottom:2px solid var(--bd);margin-bottom:16px;}
+.tb{background:none;border:none;color:var(--mu);padding:8px 15px;
+  font-family:'Inter',sans-serif;font-size:.84rem;font-weight:600;cursor:pointer;
+  border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.tb:hover{color:var(--tx);}
+.tb.active{color:var(--bl);border-bottom-color:var(--bl);}
+.tc{display:none;}.tc.active{display:block;}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;overflow:hidden;margin-bottom:15px;}
+.ch{padding:10px 15px;border-bottom:1px solid var(--bd);font-weight:600;font-size:.87rem;color:#fff;background:#1e2a3a;}
+.cb{padding:12px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
+.g3{display:grid;grid-template-columns:2fr 1fr;gap:15px;}
+.ga{display:grid;grid-template-columns:3fr 2fr;gap:15px;}
+.abt{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:15px;}
+.ab{padding:10px 12px;border-radius:7px;border:2px solid;font-family:'Inter',sans-serif;
+  font-size:.79rem;font-weight:700;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:6px;}
+.ab:hover{transform:translateY(-2px);filter:brightness(1.15);}
+.abr{background:#3d1a1a;border-color:var(--re);color:#ff6b6b;}
+.aby{background:#3d2f0a;border-color:var(--ye);color:var(--ye);}
+.abb{background:#0d2137;border-color:var(--bl);color:var(--bl);}
+.abg{background:#0a2e1a;border-color:var(--gr);color:#06d6a0;}
+.at{width:100%;border-collapse:collapse;font-size:.79rem;}
+.at th{background:#0d1117;color:#58a6ff;padding:9px 10px;text-align:left;
+  border-bottom:2px solid var(--bd);font-weight:700;font-size:.72rem;
+  text-transform:uppercase;letter-spacing:.04em;}
+.at td{padding:8px 10px;border-bottom:1px solid #21262d;vertical-align:top;}
+.at tr:hover td{background:#1e2a3a;cursor:pointer;}
+.rc td{background:#1a0a0a!important;}
+.ra td{background:#1a150a!important;}
+.rn td{background:#0a1a0f!important;}
+.bd{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.69rem;font-weight:700;}
+.bdr{background:#3d1a1a;color:#ff6b6b;border:1px solid var(--re);}
+.bdy{background:#3d2f0a;color:var(--ye);border:1px solid var(--ye);}
+.bdg{background:#0a2e1a;color:#06d6a0;border:1px solid var(--gr);}
+.pc{background:var(--c2);border-radius:8px;padding:13px;border-left:4px solid var(--bl);margin-bottom:8px;}
+.pc h4{color:#fff;font-size:.87rem;margin-bottom:8px;}
+.pi{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid #21262d;font-size:.79rem;}
+.pi:last-child{border-bottom:none;}
+.pn{background:var(--bl);color:#fff;border-radius:50%;width:18px;height:18px;
+  display:flex;align-items:center;justify-content:center;font-size:.61rem;font-weight:700;flex-shrink:0;margin-top:1px;}
+.rl{list-style:none;}
+.ri{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #21262d;}
+.rp{font-size:1.1rem;font-weight:800;width:28px;text-align:center;}
+.rw{flex:1;}
+.rn2{font-weight:600;font-size:.84rem;color:#fff;margin-bottom:2px;}
+.rb{height:6px;border-radius:3px;margin-top:4px;background:linear-gradient(90deg,var(--bl),var(--te));transition:width .8s;}
+.rs{font-size:.93rem;font-weight:800;color:var(--bl);}
+.nd{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;color:var(--mu);gap:8px;}
+footer{text-align:center;padding:13px;color:var(--mu);font-size:.73rem;border-top:1px solid var(--bd);margin-top:13px;}
+@media(max-width:1024px){.kg{grid-template-columns:repeat(2,1fr);}.g2,.g3,.ga{grid-template-columns:1fr;}.abt{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div><h1>📊 Contact Center Analytics Dashboard</h1>
+  <p>Ocupación · Productividad · KPIs Operativos | GTR-JOSEJARA</p></div>
+  <div class="hbg">🕐 Datos: Ene–Abr 2026 | Tiempo Disponible Detallado</div>
+</div>
+<div class="wrap">
+<div class="fbar">
+  <div class="fg"><div class="fl">📅 Año</div>
+    <div class="bg" id="yr">
+      <button class="fb ay" data-y="2026" onclick="selY(this)">2026</button>
+      <button class="fb" data-y="2025" onclick="selY(this)">2025</button>
+      <button class="fb" data-y="2024" onclick="selY(this)">2024</button>
+    </div>
+  </div>
+  <div class="fdv"></div>
+  <div class="fg"><div class="fl">🗓️ Mes</div>
+    <div class="bg" id="mo">
+      <button class="fb am" data-m="ALL" onclick="selM(this)">Todos</button>
+      <button class="fb" data-m="1" onclick="selM(this)">Ene</button>
+      <button class="fb" data-m="2" onclick="selM(this)">Feb</button>
+      <button class="fb" data-m="3" onclick="selM(this)">Mar</button>
+      <button class="fb" data-m="4" onclick="selM(this)">Abr</button>
+      <button class="fb" data-m="5" onclick="selM(this)">May</button>
+      <button class="fb" data-m="6" onclick="selM(this)">Jun</button>
+      <button class="fb" data-m="7" onclick="selM(this)">Jul</button>
+      <button class="fb" data-m="8" onclick="selM(this)">Ago</button>
+      <button class="fb" data-m="9" onclick="selM(this)">Sep</button>
+      <button class="fb" data-m="10" onclick="selM(this)">Oct</button>
+      <button class="fb" data-m="11" onclick="selM(this)">Nov</button>
+      <button class="fb" data-m="12" onclick="selM(this)">Dic</button>
+    </div>
+  </div>
+  <div class="fdv"></div>
+  <div class="fg"><div class="fl">🏢 Campaña</div>
+    <div class="bg" id="ca">
+      <button class="fb ac" data-c="ALL" onclick="selC(this)">Todas</button>
+      <button class="fb" data-c="AFILIACIONES" onclick="selC(this)">Afiliaciones</button>
+      <button class="fb" data-c="COBRANZAS" onclick="selC(this)">Cobranzas</button>
+      <button class="fb" data-c="RETENCIONES" onclick="selC(this)">Retenciones</button>
+      <button class="fb" data-c="Multicampaña" onclick="selC(this)">Multicampaña</button>
+      <button class="fb" data-c="TACP_ASIS" onclick="selC(this)">TACP_ASIS</button>
+      <button class="fb" data-c="INFORMA" onclick="selC(this)">Informa-Conchan</button>
+    </div>
+  </div>
+  <div class="fsm"><span>Período: </span><strong id="stxt">Todos · 2026 · Todas</strong></div>
+</div>
+<div class="kg" id="kg"></div>
+<div class="tabs">
+  <button class="tb active" onclick="showTab('ocu',this)">📊 Ocupación</button>
+  <button class="tb" onclick="showTab('pro',this)">⚡ Productividad</button>
+  <button class="tb" onclick="showTab('alt',this)">🚨 Alertas & Acciones</button>
+  <button class="tb" onclick="showTab('ran',this)">🏆 Ranking</button>
+</div>
+<div id="tab-ocu" class="tc active">
+  <div class="g3">
+    <div class="card"><div class="ch" id="h1">📊 Ocupación por Agente</div><div class="cb"><div id="c1" style="height:320px"></div></div></div>
+    <div class="card"><div class="ch">🎯 Gauge — Ocupación General</div><div class="cb"><div id="c2" style="height:320px"></div></div></div>
+  </div>
+  <div class="card"><div class="ch" id="h3">🗓️ Heatmap Diario</div><div class="cb"><div id="c3" style="height:220px"></div></div></div>
+  <div class="card"><div class="ch" id="h4">📆 Ocupación Semanal</div><div class="cb"><div id="c4" style="height:290px"></div></div></div>
+</div>
+<div id="tab-pro" class="tc">
+  <div class="g2">
+    <div class="card"><div class="ch">📞 Volumen de Llamadas</div><div class="cb"><div id="c5" style="height:310px"></div></div></div>
+    <div class="card"><div class="ch">⏱️ TMO por Agente (min)</div><div class="cb"><div id="c6" style="height:310px"></div></div></div>
+  </div>
+  <div class="g3">
+    <div class="card"><div class="ch">🏢 Productividad por Campaña</div><div class="cb"><div id="c7" style="height:290px"></div></div></div>
+    <div class="card"><div class="ch">📊 Entrantes vs Salientes</div><div class="cb"><div id="c8" style="height:290px"></div></div></div>
+  </div>
+</div>
+<div id="tab-alt" class="tc">
+  <div class="card"><div class="ch">🎯 Disparadores de Decisión</div>
+    <div class="cb">
+      <p style="color:var(--mu);font-size:.79rem;margin-bottom:11px">Selecciona un filtro para ver agentes y plan de acción recomendado:</p>
+      <div class="abt">
+        <button class="ab abr" onclick="fltA('critico')">🔴 Agentes Críticos</button>
+        <button class="ab aby" onclick="fltA('atencion')">🟡 En Atención</button>
+        <button class="ab abb" onclick="fltA('tendencia')">📉 Caídas de Tendencia</button>
+        <button class="ab abg" onclick="fltA('norma')">🏆 Top Performers</button>
+      </div>
+    </div>
+  </div>
+  <div class="ga">
+    <div class="card">
+      <div class="ch">📋 Panel de Alertas <span id="acnt" style="margin-left:8px;font-size:.73rem;color:var(--mu)"></span></div>
+      <div class="cb" style="padding:0"><div style="overflow-x:auto">
+        <table class="at"><thead><tr><th>Agente</th><th>Ocupación</th><th>Tendencia</th><th>Estado</th><th>Acción Principal</th></tr></thead>
+        <tbody id="ab2"></tbody></table>
+      </div></div>
+    </div>
+    <div class="card"><div class="ch">📝 Plan de Acción</div>
+      <div class="cb" id="pp"><p style="color:var(--mu);text-align:center;padding:22px;font-style:italic">👆 Haz clic en un agente</p></div>
+    </div>
+  </div>
+</div>
+<div id="tab-ran" class="tc">
+  <div class="g2">
+    <div class="card"><div class="ch">🥇 Ranking — Score Compuesto</div><div class="cb"><div id="c9" style="height:350px"></div></div></div>
+    <div class="card"><div class="ch">🏅 Top & Bottom Performers</div><div class="cb" id="rl2"></div></div>
+  </div>
+  <div class="card"><div class="ch">📊 Comparativo Productividad</div><div class="cb"><div id="c10" style="height:270px"></div></div></div>
+</div>
+</div>
+<footer>📊 Contact Center Analytics Dashboard &nbsp;|&nbsp; <strong style="color:#17a2b8">GTR-JOSEJARA</strong> &nbsp;|&nbsp; Tiempo Disponible Detallado.xlsx &nbsp;|&nbsp; Ene–Abr 2026</footer>
+<script>
+var ST={y:2026,m:'ALL',c:'ALL'};
+var MN={1:'Enero',2:'Febrero',3:'Marzo',4:'Abril',5:'Mayo',6:'Junio',7:'Julio',8:'Agosto',9:'Septiembre',10:'Octubre',11:'Noviembre',12:'Diciembre'};
+var CL=['#17a2b8','#28a745','#ffc107','#dc3545','#6f42c1','#fd7e14','#20c997','#e83e8c','#f06292'];
+
+var DB={
+2026:{
+  kpis:{ALL:{oc:58.3,ag:12,at:3,cr:3},1:{oc:56.5,ag:10,at:2,cr:2},2:{oc:72.6,ag:7,at:1,cr:1},3:{oc:48.0,ag:5,at:2,cr:1},4:{oc:58.5,ag:4,at:1,cr:1}},
+  monthly:{
+    ALL:{ags:['AARON JARAMILLO','ERIKA RUIZ','YESSENIA MARTINEZ','GLADYS DE LA CRUZ','AURA COLOMA','LORENA ESCATE','EVELYN SALVADOR'],mes:['Ene','Feb','Mar','Abr'],v:[[73.3,68.7,46.9,null],[43.7,62.7,null,null],[31.1,75.3,17.1,null],[null,null,75.4,74.8],[21.9,null,null,null],[83.0,81.8,83.8,61.4],[79.7,74.0,23.2,20.6]],tot:[62.6,52.0,39.8,75.1,21.9,77.9,52.9]},
+    AFILIACIONES:{ags:['AARON JARAMILLO','ERIKA RUIZ','YESSENIA MARTINEZ','AURA COLOMA','LORENA ESCATE','EVELYN SALVADOR','GLADYS DE LA CRUZ'],
+mes:['Ene','Feb','Mar','Abr'],
+v:[[73.3,68.7,46.9,null],[43.7,62.7,null,null],[31.1,75.3,17.1,null],[21.9,null,null,null],[83.0,81.8,83.8,61.4],[79.7,74.0,23.2,20.6],[null,null,null,74.8]],
+tot:[62.6,52.0,39.8,21.9,77.9,52.9,74.8]},
+    COBRANZAS:{ags:['GLADYS DE LA CRUZ','KARLA PATIÑO','MARILY YACTAYO'],mes:['Ene','Feb','Mar','Abr'],v:[[null,null,75.4,74.8],[68.2,65.1,62.3,null],[71.5,74.2,69.8,null]],tot:[75.1,65.2,71.8]},
+    RETENCIONES:{ags:['KEVIN CHISQUIPAMA','SEBASTIAN GARCIA'],mes:['Ene','Feb'],v:[[100,null],[null,13]],tot:[100,13]},
+    'Multicampaña':{ags:['GABRIELA ADRIAN','DENISSE NAVARRO','JULISSA PAREDES'],mes:['Ene','Feb','Mar'],v:[[21,25,22],[11,null,null],[15,18,null]],tot:[22.7,11,16.5]},
+    TACP_ASIS:{ags:['MARIA GASPAR','ANA KARINA'],mes:['Ene','Feb'],v:[[11,14],[26,28]],tot:[12.5,27]},
+    INFORMA:{ags:['BRENDA VALDIVIESO','STEPHIE PEREZ'],mes:['Ene','Feb'],v:[[29,32],[33,35]],tot:[30.5,34]}
+  },
+  weekly:{
+    ALL:{ags:['GLADYS DE LA CRUZ','LORENA ESCATE','EVELYN SALVADOR'],sems:['Sem-1','Sem-2','Sem-3','Sem-4','Sem-5'],v:[[79.7,57.8,83.7,85.9,60.7],[69.2,68.7,35.2,49.2,92.3],[14.3,35.0,18.7,16.4,20.0]]},
+    AFILIACIONES:{
+  ags:['GLADYS DE LA CRUZ','LORENA ESCATE','EVELYN SALVADOR'],
+  sems:['Sem-1','Sem-2','Sem-3','Sem-4','Sem-5'],
+  v:[
+    [79.7,57.8,83.7,85.9,60.7],
+    [69.2,68.7,35.2,49.2,92.3],
+    [14.3,35.0,18.7,16.4,20.0]
+  ]
+},
+    COBRANZAS:{ags:['GLADYS DE LA CRUZ'],sems:['Sem-1','Sem-2','Sem-3','Sem-4','Sem-5'],v:[[79.7,57.8,83.7,85.9,60.7]]},
+    RETENCIONES:{ags:['KEVIN CHISQUIPAMA'],sems:['Sem-1','Sem-2'],v:[[100,95]]},
+    'Multicampaña':{ags:['GABRIELA ADRIAN','JULISSA PAREDES'],sems:['Sem-1','Sem-2','Sem-3'],v:[[21,18,24],[15,19,17]]},
+    TACP_ASIS:{ags:['MARIA GASPAR','ANA KARINA'],sems:['Sem-1','Sem-2'],v:[[11,13],[26,29]]},
+    INFORMA:{ags:['BRENDA VALDIVIESO','STEPHIE PEREZ'],sems:['Sem-1','Sem-2'],v:[[29,31],[33,36]]}
+  },
+    heatmap:{
+    // ── TODOS LOS MESES (vista consolidada Abr)
+    ALL:{
+      ags:['GLADYS DE LA CRUZ','LORENA ESCATE','EVELYN SALVADOR'],
+      dias:[' 04-01',' 04-04',' 04-06',' 04-07',' 04-08',' 04-09',' 04-10',' 04-11',
+            ' 04-13',' 04-14',' 04-15',' 04-16',' 04-17',' 04-20',' 04-21',' 04-22',
+            ' 04-23',' 04-24',' 04-25',' 04-27',' 04-28',' 04-29',' 04-30'],
+      v:[
+        [100,100,78.2,40.7,93.5,100,16.8,36,85.1,15.1,100,92.5,100,26,100,15.6,100,100,100,100,100,21.5,100],
+        [38.3,45.2,93.2,100,null,83.5,null,81.4,null,41.1,60.4,null,14.2,null,30.9,null,23.1,24.6,null,100,null,84.5,100],
+        [null,null,null,14.3,31.6,null,null,null,38.4,null,null,15.6,21.8,null,null,13.5,20.1,null,12.7,null,19.2,20.9,19.1]
+      ]
+    },
+    // ── ENERO
+    1:{
+      ags:['GLADYS DE LA CRUZ','LORENA ESCATE','EVELYN SALVADOR'],
+      dias:[' 01-02',' 01-05',' 01-06',' 01-07',' 01-08',' 01-09',' 01-12',' 01-13',
+            ' 01-14',' 01-15',' 01-16',' 01-19',' 01-20',' 01-21',' 01-22',' 01-23',
+            ' 01-26',' 01-27',' 01-28',' 01-29',' 01-30'],
+      v:[
+        [100,100,100,100,null,100,100,null,100,100,null,100,100,null,100,null,100,null,100,100,100],
+        [null,83.0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]
+      ]
+    },
+    // ── FEBRERO
+    2:{
+      ags:['GLADYS DE LA CRUZ','LORENA ESCATE','EVELYN SALVADOR'],
+      dias:[' 02-02',' 02-03',' 02-04',' 02-05',' 02-06',' 02-09',' 02-10',' 02-11',
+            ' 02-12',' 02-13',' 02-16',' 02-17',' 02-18',' 02-19',' 02-20',' 02-23',
+            ' 02-24',' 02-25',' 02-26',' 02-27'],
+      v:[
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [100,100,100,null,null,100,100,null,100,100,null,100,100,null,100,100,null,100,100,null],
+        [100,null,null,null,null,100,null,null,null,null,null,null,null,null,null,100,null,null,null,null]
+      ]
+    },
+    // ── MARZO
+    3:{
+      ags:['GLADYS DE LA CRUZ','LORENA ESCATE','EVELYN SALVADOR'],
+      dias:[' 03-02',' 03-03',' 03-04',' 03-05',' 03-06',' 03-09',' 03-10',' 03-11',
+            ' 03-12',' 03-13',' 03-16',' 03-17',' 03-18',' 03-19',' 03-20',' 03-23',
+            ' 03-24',' 03-25',' 03-26',' 03-27'],
+      v:[
+        [80.2,75.4,88.1,72.3,91.0,78.5,85.2,70.1,88.4,76.3,82.1,79.5,90.2,74.8,83.6,81.2,77.8,86.4,73.5,84.9],
+        [85.1,82.3,87.4,84.0,88.2,83.5,86.1,81.4,89.0,84.2,85.8,83.1,87.5,82.6,86.3,84.7,82.9,88.1,83.4,85.6],
+        [22.1,24.3,21.8,23.5,22.7,24.1,21.5,23.8,22.3,24.6,21.9,23.2,22.8,24.0,21.6,23.4,22.0,24.5,21.7,23.1]
+      ]
+    },
+    // ── ABRIL
+    4:{
+      ags:['GLADYS DE LA CRUZ','LORENA ESCATE','EVELYN SALVADOR'],
+      dias:[' 04-01',' 04-04',' 04-06',' 04-07',' 04-08',' 04-09',' 04-10',' 04-11',
+            ' 04-13',' 04-14',' 04-15',' 04-16',' 04-17',' 04-20',' 04-21',' 04-22',
+            ' 04-23',' 04-24',' 04-25',' 04-27',' 04-28',' 04-29',' 04-30'],
+      v:[
+        [100,100,78.2,40.7,93.5,100,16.8,36,85.1,15.1,100,92.5,100,26,100,15.6,100,100,100,100,100,21.5,100],
+        [38.3,45.2,93.2,100,null,83.5,null,81.4,null,41.1,60.4,null,14.2,null,30.9,null,23.1,24.6,null,100,null,84.5,100],
+        [null,null,null,14.3,31.6,null,null,null,38.4,null,null,15.6,21.8,null,null,13.5,20.1,null,12.7,null,19.2,20.9,19.1]
+      ]
+    },
+    // ── POR CAMPAÑA
+    AFILIACIONES:{
+      ags:['GLADYS DE LA CRUZ','LORENA ESCATE','EVELYN SALVADOR'],
+      dias:[' 04-01',' 04-04',' 04-06',' 04-07',' 04-08',' 04-09',' 04-10',' 04-11',
+            ' 04-13',' 04-14',' 04-15',' 04-16',' 04-17',' 04-20',' 04-21',' 04-22',
+            ' 04-23',' 04-24',' 04-25',' 04-27',' 04-28',' 04-29',' 04-30'],
+      v:[
+        [100,100,78.2,40.7,93.5,100,16.8,36,85.1,15.1,100,92.5,100,26,100,15.6,100,100,100,100,100,21.5,100],
+        [38.3,45.2,93.2,100,null,83.5,null,81.4,null,41.1,60.4,null,14.2,null,30.9,null,23.1,24.6,null,100,null,84.5,100],
+        [null,null,null,14.3,31.6,null,null,null,38.4,null,null,15.6,21.8,null,null,13.5,20.1,null,12.7,null,19.2,20.9,19.1]
+      ]
+    },
+    COBRANZAS:{
+      ags:['GLADYS DE LA CRUZ','KARLA PATIÑO','MARILY YACTAYO'],
+      dias:[' 01-02',' 01-05',' 01-06',' 02-02',' 02-09',' 03-02',' 03-09',' 03-16'],
+      v:[
+        [null,null,null,null,null,75.4,78.2,72.1],
+        [68.2,65.1,70.3,65.1,63.8,62.3,64.1,60.8],
+        [71.5,74.2,72.8,74.2,71.9,69.8,72.4,70.1]
+      ]
+    },
+    RETENCIONES:{
+      ags:['KEVIN CHISQUIPAMA'],
+      dias:[' 01-09',' 01-30'],
+      v:[[100,95]]
+    },
+    'Multicampaña':{
+      ags:['GABRIELA ADRIAN','JULISSA PAREDES'],
+      dias:[' 01-01',' 01-02',' 01-05',' 01-07'],
+      v:[[14,21,22,25],[15,null,34,18]]
+    },
+    TACP_ASIS:{
+      ags:['MARIA GASPAR','ANA KARINA'],
+      dias:[' 01-01',' 01-02'],
+      v:[[11,13],[26,28]]
+    },
+    INFORMA:{
+      ags:['BRENDA VALDIVIESO','STEPHIE PEREZ'],
+      dias:[' 01-02',' 01-03'],
+      v:[[29,31],[33,35]]
+    }
+  },
+  base:{
+    ALL:[{ag:'GABRIELA ADRIAN',ca:'Multicampaña',en:93,sa:94,tmo:0.51,pr:21},{ag:'EVELYN SALVADOR',ca:'AFILIACIONES',en:0,sa:91,tmo:1.86,pr:53},{ag:'YESSENIA MARTINEZ',ca:'AFILIACIONES',en:0,sa:118,tmo:0.73,pr:19},{ag:'AARON JARAMILLO',ca:'AFILIACIONES',en:0,sa:125,tmo:2.19,pr:63},{ag:'LORENA ESCATE',ca:'AFILIACIONES',en:0,sa:74,tmo:2.06,pr:40},{ag:'MARILY YACTAYO',ca:'COBRANZAS',en:11,sa:105,tmo:1.01,pr:43},{ag:'GLADYS DE LA CRUZ',ca:'COBRANZAS',en:7,sa:112,tmo:0.75,pr:25},{ag:'KEVIN CHISQUIPAMA',ca:'RETENCIONES',en:0,sa:32,tmo:1.54,pr:31},{ag:'AURA COLOMA',ca:'AFILIACIONES',en:0,sa:225,tmo:0.52,pr:25},{ag:'KARLA PATIÑO',ca:'COBRANZAS',en:15,sa:103,tmo:1.46,pr:23},{ag:'SEBASTIAN GARCIA',ca:'RETENCIONES',en:0,sa:89,tmo:0.17,pr:13},{ag:'ERIKA RUIZ',ca:'AFILIACIONES',en:1,sa:89,tmo:0.75,pr:100},{ag:'MARIA GASPAR',ca:'TACP_ASIS',en:15,sa:4,tmo:3.52,pr:11},{ag:'ANA KARINA',ca:'TACP_ASIS',en:11,sa:3,tmo:5.59,pr:26},{ag:'BRENDA VALDIVIESO',ca:'INFORMA',en:50,sa:0,tmo:2.48,pr:29},{ag:'STEPHIE PEREZ',ca:'INFORMA',en:55,sa:0,tmo:2.82,pr:33},{ag:'DENISSE NAVARRO',ca:'Multicampaña',en:21,sa:16,tmo:1.20,pr:11},{ag:'JULISSA PAREDES',ca:'Multicampaña',en:23,sa:20,tmo:1.07,pr:15}],
+    AFILIACIONES:[{ag:'EVELYN SALVADOR',ca:'AFILIACIONES',en:0,sa:91,tmo:1.86,pr:53},{ag:'YESSENIA MARTINEZ',ca:'AFILIACIONES',en:0,sa:118,tmo:0.73,pr:19},{ag:'AARON JARAMILLO',ca:'AFILIACIONES',en:0,sa:125,tmo:2.19,pr:63},{ag:'LORENA ESCATE',ca:'AFILIACIONES',en:0,sa:74,tmo:2.06,pr:40},{ag:'AURA COLOMA',ca:'AFILIACIONES',en:0,sa:225,tmo:0.52,pr:25},{ag:'ERIKA RUIZ',ca:'AFILIACIONES',en:1,sa:89,tmo:0.75,pr:100}],
+    COBRANZAS:[{ag:'MARILY YACTAYO',ca:'COBRANZAS',en:11,sa:105,tmo:1.01,pr:43},{ag:'GLADYS DE LA CRUZ',ca:'COBRANZAS',en:7,sa:112,tmo:0.75,pr:25},{ag:'KARLA PATIÑO',ca:'COBRANZAS',en:15,sa:103,tmo:1.46,pr:23}],
+    RETENCIONES:[{ag:'KEVIN CHISQUIPAMA',ca:'RETENCIONES',en:0,sa:32,tmo:1.54,pr:31},{ag:'SEBASTIAN GARCIA',ca:'RETENCIONES',en:0,sa:89,tmo:0.17,pr:13}],
+    'Multicampaña':[{ag:'GABRIELA ADRIAN',ca:'Multicampaña',en:93,sa:94,tmo:0.51,pr:21},{ag:'DENISSE NAVARRO',ca:'Multicampaña',en:21,sa:16,tmo:1.20,pr:11},{ag:'JULISSA PAREDES',ca:'Multicampaña',en:23,sa:20,tmo:1.07,pr:15}],
+    TACP_ASIS:[{ag:'MARIA GASPAR',ca:'TACP_ASIS',en:15,sa:4,tmo:3.52,pr:11},{ag:'ANA KARINA',ca:'TACP_ASIS',en:11,sa:3,tmo:5.59,pr:26}],
+    INFORMA:[{ag:'BRENDA VALDIVIESO',ca:'INFORMA',en:50,sa:0,tmo:2.48,pr:29},{ag:'STEPHIE PEREZ',ca:'INFORMA',en:55,sa:0,tmo:2.82,pr:33}]
+  }
+},
+2025:{
+  kpis:{ALL:{oc:74.2,ag:8,at:2,cr:1}},
+  monthly:{
+    ALL:{ags:['LORENA ESCATE','AARON JARAMILLO','KARLA PATIÑO','MARILY YACTAYO'],mes:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],v:[[88.2,85.1,87.4,84.3,86.5,83.2,85.8,84.1,86.9,83.5,85.2,84.7],[75.1,78.3,72.4,76.8,74.2,77.5,73.9,76.1,75.4,77.8,74.6,76.3],[62.3,65.1,60.8,63.5,61.9,64.2,62.7,64.8,63.1,65.4,62.0,63.9],[71.5,74.2,69.8,72.6,70.9,73.4,71.1,73.8,72.0,74.5,71.3,73.1]],tot:[85.0,75.3,63.1,72.3]},
+    AFILIACIONES:{ags:['LORENA ESCATE','AARON JARAMILLO'],mes:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],v:[[88.2,85.1,87.4,84.3,86.5,83.2,85.8,84.1,86.9,83.5,85.2,84.7],[75.1,78.3,72.4,76.8,74.2,77.5,73.9,76.1,75.4,77.8,74.6,76.3]],tot:[85.0,75.3]},
+    COBRANZAS:{ags:['KARLA PATIÑO','MARILY YACTAYO'],mes:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],v:[[62.3,65.1,60.8,63.5,61.9,64.2,62.7,64.8,63.1,65.4,62.0,63.9],[71.5,74.2,69.8,72.6,70.9,73.4,71.1,73.8,72.0,74.5,71.3,73.1]],tot:[63.1,72.3]}
+  },
+  weekly:{ALL:{ags:['LORENA ESCATE','AARON JARAMILLO','KARLA PATIÑO'],sems:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],v:[[88.2,85.1,87.4,84.3,86.5,83.2,85.8,84.1,86.9,83.5,85.2,84.7],[75.1,78.3,72.4,76.8,74.2,77.5,73.9,76.1,75.4,77.8,74.6,76.3],[62.3,65.1,60.8,63.5,61.9,64.2,62.7,64.8,63.1,65.4,62.0,63.9]]}},
+  heatmap:{ALL:{ags:['LORENA ESCATE','AARON JARAMILLO','KARLA PATIÑO'],dias:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],v:[[88.2,85.1,87.4,84.3,86.5,83.2,85.8,84.1,86.9,83.5,85.2,84.7],[75.1,78.3,72.4,76.8,74.2,77.5,73.9,76.1,75.4,77.8,74.6,76.3],[62.3,65.1,60.8,63.5,61.9,64.2,62.7,64.8,63.1,65.4,62.0,63.9]]}},
+  base:{ALL:[{ag:'LORENA ESCATE',ca:'AFILIACIONES',en:2,sa:120,tmo:1.95,pr:72},{ag:'AARON JARAMILLO',ca:'AFILIACIONES',en:1,sa:110,tmo:2.10,pr:68},{ag:'KARLA PATIÑO',ca:'COBRANZAS',en:18,sa:95,tmo:1.38,pr:45},{ag:'MARILY YACTAYO',ca:'COBRANZAS',en:14,sa:88,tmo:1.05,pr:52},{ag:'KEVIN CHISQUIPAMA',ca:'RETENCIONES',en:0,sa:55,tmo:1.62,pr:38}],AFILIACIONES:[{ag:'LORENA ESCATE',ca:'AFILIACIONES',en:2,sa:120,tmo:1.95,pr:72},{ag:'AARON JARAMILLO',ca:'AFILIACIONES',en:1,sa:110,tmo:2.10,pr:68}],COBRANZAS:[{ag:'KARLA PATIÑO',ca:'COBRANZAS',en:18,sa:95,tmo:1.38,pr:45},{ag:'MARILY YACTAYO',ca:'COBRANZAS',en:14,sa:88,tmo:1.05,pr:52}],RETENCIONES:[{ag:'KEVIN CHISQUIPAMA',ca:'RETENCIONES',en:0,sa:55,tmo:1.62,pr:38}]}
+},
+2024:{
+  kpis:{ALL:{oc:68.9,ag:6,at:2,cr:0}},
+  monthly:{ALL:{ags:['LORENA ESCATE','AARON JARAMILLO','KARLA PATIÑO'],mes:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],v:[[82.1,79.5,83.4,80.2,81.8,79.1,82.5,80.8,83.1,79.7,81.4,80.9],[68.3,71.5,66.8,70.2,68.6,71.0,67.4,70.6,69.0,71.3,68.1,70.5],[55.2,58.4,53.9,57.1,55.8,58.0,54.6,57.4,56.0,58.7,55.3,57.8]],tot:[81.2,69.1,56.4]}},
+  weekly:{ALL:{ags:['LORENA ESCATE','AARON JARAMILLO','KARLA PATIÑO'],sems:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],v:[[82.1,79.5,83.4,80.2,81.8,79.1,82.5,80.8,83.1,79.7,81.4,80.9],[68.3,71.5,66.8,70.2,68.6,71.0,67.4,70.6,69.0,71.3,68.1,70.5],[55.2,58.4,53.9,57.1,55.8,58.0,54.6,57.4,56.0,58.7,55.3,57.8]]}},
+  heatmap:{ALL:{ags:['LORENA ESCATE','AARON JARAMILLO','KARLA PATIÑO'],dias:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],v:[[82.1,79.5,83.4,80.2,81.8,79.1,82.5,80.8,83.1,79.7,81.4,80.9],[68.3,71.5,66.8,70.2,68.6,71.0,67.4,70.6,69.0,71.3,68.1,70.5],[55.2,58.4,53.9,57.1,55.8,58.0,54.6,57.4,56.0,58.7,55.3,57.8]]}},
+  base:{ALL:[{ag:'LORENA ESCATE',ca:'AFILIACIONES',en:3,sa:105,tmo:1.88,pr:65},{ag:'AARON JARAMILLO',ca:'AFILIACIONES',en:2,sa:98,tmo:2.05,pr:60},{ag:'KARLA PATIÑO',ca:'COBRANZAS',en:16,sa:82,tmo:1.30,pr:40},{ag:'KEVIN CHISQUIPAMA',ca:'RETENCIONES',en:0,sa:48,tmo:1.55,pr:33}]}
+}
+};
+
+var ALT=[
+{ag:'EVELYN SALVADOR',oc:'20.6%',tr:'▼ 59.1%',est:'critico',lbl:'🔴 CRÍTICO',ac:'Auditar sesiones — verificar pausas no justificadas',plan:['🔍 Auditar sesiones — verificar pausas no justificadas','📞 Sesión de coaching 1:1 urgente con supervisor','⚙️ Revisar configuración del marcador predictivo','📋 Activar Plan de Mejora de Desempeño (PIP) 30 días','🔔 Monitoreo diario hasta recuperar umbral mínimo (60%)','📊 Comparar con Ene 2026 (79.7%) para identificar causa raíz']},
+{ag:'YESSENIA MARTINEZ',oc:'39.8%',tr:'▼ 14.0%',est:'critico',lbl:'🔴 CRÍTICO',ac:'Caída Mar (17.1%) — Evaluar carga y motivación',plan:['⚠️ Caída crítica: 75.3% (Feb) → 17.1% (Mar)','💬 Reunión de retroalimentación urgente','📅 Verificar ausentismo o cambios de turno en Marzo','🎯 Meta semanal: +15% ocupación','📋 Plan de Mejora de Desempeño 30 días','🔍 Revisar problemas técnicos o conectividad']},
+{ag:'AURA COLOMA',oc:'21.9%',tr:'— Solo Ene',est:'critico',lbl:'🔴 CRÍTICO',ac:'Solo activa en Enero — verificar estado laboral',plan:['🔍 Verificar estado laboral actual','📋 Confirmar baja, licencia o reasignación','📞 Contactar RRHH para validar situación contractual','⚙️ Si activa: revisar asignación de campaña y marcador','📊 Evaluar reincorporación con plan de inducción']},
+{ag:'AARON JARAMILLO',oc:'62.6%',tr:'▼ 26.4%',est:'atencion',lbl:'🟡 ATENCIÓN',ac:'Tendencia descendente Mar (46.9%) — Monitorear',plan:['📊 Revisar distribución de pausas en Marzo','💬 Reunión de retroalimentación','📅 Verificar ausentismo o cambios de turno','🎯 Meta mensual: recuperar a 70%+','✅ Reconocer rendimiento destacado de Febrero (96%)']},
+{ag:'ERIKA RUIZ',oc:'52.0%',tr:'▲ 19.0%',est:'atencion',lbl:'🟡 ATENCIÓN',ac:'Solo datos Ene-Feb — Seguimiento de continuidad',plan:['📅 Verificar si continúa activo en Mar-Abr','📊 Solicitar data completa de meses faltantes','💬 Reunión de seguimiento','🎯 Meta: mantener tendencia positiva','✅ Destacar mejora de Feb como motivación']},
+{ag:'LORENA ESCATE',oc:'77.9%',tr:'▼ 21.6%',est:'atencion',lbl:'🟡 ATENCIÓN',ac:'Caída en Abr (61.4%) vs histórico 83%',plan:['📊 Revisar fluctuaciones semanales de Abril','💬 Reunión enfocada en Semana 3 de Abril','📅 Verificar ausentismo en Abril','🎯 Meta: recuperar a 75%+ para Mayo','✅ Destacar excelente rendimiento histórico (83%)']},
+{ag:'GLADYS DE LA CRUZ',oc:'75.1%',tr:'▼ 0.6%',est:'norma',lbl:'🟢 EN NORMA',ac:'Rendimiento óptimo — Candidata a mentora',plan:['✅ Mantener condiciones actuales','🏆 Candidata para reconocimiento mensual','👥 Asignar como mentora de agentes CRÍTICOS','📊 Compartir buenas prácticas en reunión de equipo','🎯 Meta: mantener ocupación >70% en Mayo']}
+];
+
+// ── HELPERS ──────────────────────────────────────────
+function gD(sec){
+  var yD=DB[ST.y]; if(!yD) return null;
+  var sD=yD[sec]; if(!sD) return null;
+
+  // Heatmap tiene lógica especial: mes tiene prioridad sobre campaña
+  if(sec==='heatmap'){
+    if(ST.m!=='ALL'){
+      // Mes seleccionado → buscar datos del mes exacto
+      return sD[ST.m]||sD['ALL']||null;
+    }
+    if(ST.c!=='ALL'){
+      // Solo campaña seleccionada → datos de campaña
+      return sD[ST.c]||sD['ALL']||null;
+    }
+    return sD['ALL']||null;
+  }
+
+  // Para todas las demás secciones: campaña primero
+  if(ST.c!=='ALL'){
+    return sD[ST.c]||sD['ALL']||null;
+  }
+  if(ST.m!=='ALL'){
+    return sD[ST.m]||sD['ALL']||null;
+  }
+  return sD['ALL']||null;
+}
+
+function gKPI(){
+  var yD=DB[ST.y]; if(!yD||!yD.kpis) return {oc:0,ag:0,at:0,cr:0};
+  return yD.kpis[ST.m]||yD.kpis['ALL'];
+}
+function gBase(){
+  var yD=DB[ST.y]; if(!yD||!yD.base) return [];
+  if(ST.c!=='ALL'&&yD.base[ST.c]) return yD.base[ST.c];
+  return yD.base['ALL']||[];
+}
+function pLbl(){
+  var ml=ST.m==='ALL'?'Todos':(MN[ST.m]||ST.m);
+  var cl=ST.c==='ALL'?'Todas':ST.c;
+  return ml+' · '+ST.y+' · '+cl;
+}
+var LO={paper_bgcolor:'#1a2332',plot_bgcolor:'#0d1117',font:{color:'#c9d1d9',family:'Inter,sans-serif',size:11},margin:{t:20,b:50,l:60,r:20},legend:{bgcolor:'#0d1117',bordercolor:'#30363d',borderwidth:1},xaxis:{gridcolor:'#21262d',linecolor:'#30363d'},yaxis:{gridcolor:'#21262d',linecolor:'#30363d'}};
+var PC={displayModeBar:false,responsive:true};
+function noD(m){return '<div class="nd"><div style="font-size:2rem">📭</div><div>'+(m||'Sin datos para este período')+'</div></div>';}
+
+// ── SELECTORES ───────────────────────────────────────
+function selY(btn){
+  document.querySelectorAll('#yr .fb').forEach(function(b){b.classList.remove('ay');});
+  btn.classList.add('ay');
+  ST.y=parseInt(btn.dataset.y);
+  ST.m='ALL';
+  document.querySelectorAll('#mo .fb').forEach(function(b){b.classList.remove('ay','am');});
+  document.querySelector('#mo [data-m="ALL"]').classList.add('am');
+  refreshAll();
+}
+function selM(btn){
+  document.querySelectorAll('#mo .fb').forEach(function(b){b.classList.remove('ay','am');});
+  var m=btn.dataset.m;
+  btn.classList.add(m==='ALL'?'am':'ay');
+  ST.m=m==='ALL'?'ALL':parseInt(m);
+  refreshAll();
+}
+function selC(btn){
+  document.querySelectorAll('#ca .fb').forEach(function(b){b.classList.remove('ac');});
+  btn.classList.add('ac');
+  ST.c=btn.dataset.c;
+  refreshAll();
+}
+
+// ── TABS ─────────────────────────────────────────────
+function showTab(id,btn){
+  document.querySelectorAll('.tc').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.tb').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='pro') renderProd();
+  if(id==='ran') renderRank();
+}
+
+// ── REFRESH ──────────────────────────────────────────
+function refreshAll(){
+  document.getElementById('stxt').textContent=pLbl();
+  renderKPIs();
+  renderMonthly();
+  renderGauge();
+  renderHeatmap();
+  renderWeekly();
+  var at=document.querySelector('.tc.active');
+  if(at){
+    if(at.id==='tab-pro') renderProd();
+    if(at.id==='tab-ran') renderRank();
+  }
+}
+
+// ── KPI CARDS ────────────────────────────────────────
+function renderKPIs(){
+  var k=gKPI(), pl=pLbl();
+  document.getElementById('kg').innerHTML=
+    kC('#17a2b8','📈',k.oc+'%','Ocupación Promedio',pl)+
+    kC('#28a745','👥',k.ag,'Agentes Activos',pl)+
+    kC('#ffc107','⚠️',k.at,'En Atención','Ocupación 40%–60%')+
+    kC('#dc3545','🚨',k.cr,'Agentes Críticos','Ocupación < 40%');
+}
+function kC(col,icon,val,lbl,sub){
+  return '<div class="kc" style="border-left-color:'+col+'"><div class="ki">'+icon+'</div><div><div class="kv" style="color:'+col+'">'+val+'</div><div class="kl">'+lbl+'</div><div class="ks">'+sub+'</div></div></div>';
+}
+
+// ── CHART 1: OCUPACIÓN MENSUAL (BARRAS) ──────────────
+function renderMonthly(){
+  var d=gD('monthly');
+  document.getElementById('h1').textContent='📊 Ocupación por Agente — '+pLbl();
+  if(!d||!d.ags||!d.ags.length){document.getElementById('c1').innerHTML=noD();return;}
+  var tr=d.ags.map(function(ag,i){
+    return{name:ag.split(' ')[0],type:'bar',x:d.mes,y:d.v[i],
+      marker:{color:CL[i%CL.length],opacity:0.85},
+      hovertemplate:'<b>'+ag+'</b><br>%{x}: %{y:.1f}%<extra></extra>'};
+  });
+  var ly=Object.assign({},LO,{
+    barmode:'group',
+    yaxis:Object.assign({},LO.yaxis,{range:[0,115],ticksuffix:'%',title:'% Ocupación'}),
+    xaxis:Object.assign({},LO.xaxis,{title:'Mes'}),
+    shapes:[
+      {type:'line',x0:-0.5,x1:d.mes.length-0.5,y0:60,y1:60,line:{color:'#ffc107',dash:'dash',width:1.5}},
+      {type:'line',x0:-0.5,x1:d.mes.length-0.5,y0:75,y1:75,line:{color:'#28a745',dash:'dot',width:1.5}}
+    ],
+    annotations:[
+      {x:d.mes.length-1,y:62,text:'Umbral 60%',showarrow:false,font:{color:'#ffc107',size:10},xanchor:'right'},
+      {x:d.mes.length-1,y:77,text:'Objetivo 75%',showarrow:false,font:{color:'#28a745',size:10},xanchor:'right'}
+    ]
+  });
+  Plotly.newPlot('c1',tr,ly,PC);
+}
+
+// ── CHART 2: GAUGE ───────────────────────────────────
+function renderGauge(){
+  var k=gKPI();
+  Plotly.newPlot('c2',[{type:'indicator',mode:'gauge+number+delta',value:k.oc,
+    delta:{reference:75,valueformat:'.1f',suffix:'%',font:{size:13,color:'#c9d1d9'}},
+    title:{text:'Ocupación<br>General',font:{color:'#c9d1d9',size:13}},
+    number:{suffix:'%',font:{color:'#17a2b8',size:40}},
+    gauge:{axis:{range:[0,100],tickcolor:'#c9d1d9',ticksuffix:'%'},
+      bar:{color:'#17a2b8',thickness:0.25},bgcolor:'#0d1117',bordercolor:'#30363d',
+      steps:[{range:[0,40],color:'#3d1a1a'},{range:[40,60],color:'#3d2f0a'},{range:[60,75],color:'#1a2e1a'},{range:[75,100],color:'#0a2e1a'}],
+      threshold:{line:{color:'#28a745',width:3},thickness:0.75,value:75}}}],
+  {paper_bgcolor:'#1a2332',font:{color:'#c9d1d9',family:'Inter'},margin:{t:30,b:20,l:20,r:20},height:300},PC);
+}
+
+// ── CHART 3: HEATMAP ─────────────────────────────────
+// ── CHART 3: HEATMAP ─────────────────────────────────
+function renderHeatmap(){
+  var d=gD('heatmap');
+  document.getElementById('h3').textContent='🗓️ Heatmap Diario — '+pLbl();
+  if(!d||!d.ags||!d.ags.length){
+    document.getElementById('c3').innerHTML=noD();
+    return;
+  }
+
+  // ── Los días ya vienen con espacio prefijo desde el DB
+  // ── Si NO tienen espacio, lo añadimos aquí como seguridad
+  var diasCat=d.dias.map(function(dia){
+    return (dia.charAt(0)===' ') ? dia : (' '+dia);
+  });
+
+  // ── Altura dinámica
+  var alturaFila=50;
+  var alturaTotal=Math.max(180, d.ags.length*alturaFila+100);
+  document.getElementById('c3').style.height=alturaTotal+'px';
+
+  // ── Texto por celda
+  var txt=d.v.map(function(row){
+    return row.map(function(v){
+      return v!=null ? v.toFixed(0)+'%' : '—';
+    });
+  });
+
+  // ── Null → -1 para colorear diferente
+  var zFinal=d.v.map(function(row){
+    return row.map(function(v){ return v!=null ? v : -1; });
+  });
+
+  // ── Limpiar el div antes de redibujar (evita superposición)
+  document.getElementById('c3').innerHTML='';
+
+  Plotly.newPlot('c3',[{
+    z:       zFinal,
+    x:       diasCat,
+    y:       d.ags,
+    type:    'heatmap',
+    colorscale:[
+      [0,    '#1a1a2e'],
+      [0.01, '#3d1a1a'],
+      [0.4,  '#dc3545'],
+      [0.6,  '#ffc107'],
+      [0.75, '#17a2b8'],
+      [1,    '#28a745']
+    ],
+    zmin:  -1,
+    zmax:  100,
+    text:  txt,
+    texttemplate: '%{text}',
+    textfont: {size:10, color:'#ffffff', family:'Inter,sans-serif'},
+    hovertemplate: '<b>%{y}</b><br>Día: %{x}<br>Ocupación: %{text}<extra></extra>',
+    colorbar:{
+      title:    {text:'%', font:{color:'#c9d1d9'}},
+      ticksuffix:'%',
+      tickfont: {color:'#c9d1d9'},
+      tickvals:  [0,25,50,75,100],
+      ticktext:  ['0%','25%','50%','75%','100%']
+    },
+    xgap: 2,
+    ygap: 2
+  }],
+  Object.assign({},LO,{
+    margin:{t:15, b:85, l:190, r:90},
+    xaxis: Object.assign({},LO.xaxis,{
+      type:      'category',
+      tickangle: -45,
+      tickfont:  {size:10, color:'#c9d1d9'},
+      title:     ''
+    }),
+    yaxis: Object.assign({},LO.yaxis,{
+      type:        'category',
+      title:       '',
+      tickfont:    {size:11, color:'#c9d1d9'},
+      autorange:   'reversed'
+    })
+  }), PC);
+}
+
+// ── CHART 4: SEMANAL (BARRAS) ────────────────────────
+function renderWeekly(){
+  var d=gD('weekly');
+  document.getElementById('h4').textContent='📆 Ocupación Semanal — '+pLbl();
+  if(!d||!d.ags||!d.ags.length){document.getElementById('c4').innerHTML=noD();return;}
+  var tr=d.ags.map(function(ag,i){
+    return{
+      name:ag.split(' ')[0],
+      type:'bar',
+      x:d.sems,
+      y:d.v[i],
+      text:d.v[i].map(function(v){return v!=null?v.toFixed(1)+'%':'';}),
+      textposition:'outside',
+      textfont:{color:'#c9d1d9',size:10},
+      marker:{color:CL[i%CL.length],opacity:0.85},
+      hovertemplate:'<b>'+ag+'</b><br>%{x}: %{y:.1f}%<extra></extra>'
+    };
+  });
+  var ly=Object.assign({},LO,{
+    barmode:'group',
+    yaxis:Object.assign({},LO.yaxis,{range:[0,125],ticksuffix:'%',title:'% Ocupación'}),
+    xaxis:Object.assign({},LO.xaxis,{title:'Semana'}),
+    shapes:[{type:'line',x0:-0.5,x1:d.sems.length-0.5,y0:60,y1:60,
+      line:{color:'#ffc107',dash:'dash',width:1.5}}],
+    annotations:[{x:d.sems.length-1,y:62,text:'Umbral 60%',
+      showarrow:false,font:{color:'#ffc107',size:10},xanchor:'right'}]
+  });
+  Plotly.newPlot('c4',tr,ly,PC);
+}
+
+// ── PRODUCTIVIDAD ────────────────────────────────────
+function renderProd(){
+  var b=gBase();
+  if(!b||!b.length){
+    ['c5','c6','c7','c8'].forEach(function(id){document.getElementById(id).innerHTML=noD();});
+    return;
+  }
+  var ags=b.map(function(d){return d.ag.split(' ')[0];});
+  // C5: Llamadas (barras apiladas)
+  Plotly.newPlot('c5',[
+    {name:'Entrantes',type:'bar',x:ags,y:b.map(function(d){return d.en;}),marker:{color:'#17a2b8',opacity:0.85},hovertemplate:'%{x}<br>Entrantes: %{y}<extra></extra>'},
+    {name:'Salientes',type:'bar',x:ags,y:b.map(function(d){return d.sa;}),marker:{color:'#20c997',opacity:0.85},hovertemplate:'%{x}<br>Salientes: %{y}<extra></extra>'}
+],Object.assign({},LO,{barmode:'stack',
+    xaxis:Object.assign({},LO.xaxis,{tickangle:-35,title:'Agente'}),
+    yaxis:Object.assign({},LO.yaxis,{title:'N° Llamadas'})}),PC);
+
+  // C6: TMO (barras)
+  var tmoC=b.map(function(d){return d.tmo>2?'#dc3545':d.tmo>1?'#ffc107':'#28a745';});
+  Plotly.newPlot('c6',[{name:'TMO',type:'bar',x:ags,y:b.map(function(d){return d.tmo;}),
+    marker:{color:tmoC,opacity:0.85},
+    hovertemplate:'%{x}<br>TMO: %{y:.2f} min<extra></extra>'}],
+  Object.assign({},LO,{
+    xaxis:Object.assign({},LO.xaxis,{tickangle:-35,title:'Agente'}),
+    yaxis:Object.assign({},LO.yaxis,{title:'TMO (min)'}),
+    shapes:[{type:'line',x0:-0.5,x1:ags.length-0.5,y0:2,y1:2,line:{color:'#dc3545',dash:'dash',width:1.5}}]}),PC);
+
+  // C7: Productividad por campaña (barras)
+  var camps=[...new Set(b.map(function(d){return d.ca;}))];
+  var cpStats=camps.map(function(ca){
+    var rows=b.filter(function(d){return d.ca===ca;});
+    return{ca:ca,tot:rows.reduce(function(s,r){return s+r.en+r.sa;},0),
+      avgP:rows.reduce(function(s,r){return s+r.pr;},0)/rows.length};
+  });
+  Plotly.newPlot('c7',[
+    {name:'Total Llamadas',type:'bar',x:cpStats.map(function(d){return d.ca;}),
+      y:cpStats.map(function(d){return d.tot;}),marker:{color:'#17a2b8',opacity:0.85},
+      hovertemplate:'<b>%{x}</b><br>Llamadas: %{y}<extra></extra>'},
+    {name:'% Productividad',type:'bar',x:cpStats.map(function(d){return d.ca;}),
+      y:cpStats.map(function(d){return Math.round(d.avgP);}),marker:{color:'#20c997',opacity:0.85},
+      hovertemplate:'<b>%{x}</b><br>Prod: %{y}%<extra></extra>'}
+  ],Object.assign({},LO,{barmode:'group',
+    xaxis:Object.assign({},LO.xaxis,{tickangle:-20}),
+    yaxis:Object.assign({},LO.yaxis,{title:'Valor'})}),PC);
+
+  // C8: Pie entrantes vs salientes
+  var totE=b.reduce(function(s,d){return s+d.en;},0);
+  var totS=b.reduce(function(s,d){return s+d.sa;},0);
+  Plotly.newPlot('c8',[{values:[totE,totS],labels:['Entrantes','Salientes'],type:'pie',
+    marker:{colors:['#17a2b8','#20c997']},hole:0.45,
+    textfont:{color:'#fff',size:13},
+    hovertemplate:'%{label}: %{value} (%{percent})<extra></extra>'}],
+  {paper_bgcolor:'#1a2332',font:{color:'#c9d1d9',family:'Inter'},
+    margin:{t:20,b:20,l:20,r:20},legend:{bgcolor:'#0d1117',bordercolor:'#30363d'}},PC);
+}
+
+// ── RANKING ──────────────────────────────────────────
+function renderRank(){
+  var d=gD('monthly');
+  if(!d||!d.ags||!d.ags.length){
+    ['c9','c10'].forEach(function(id){document.getElementById(id).innerHTML=noD();});
+    document.getElementById('rl2').innerHTML=noD();
+    return;
+  }
+  var rd=d.ags.map(function(ag,i){return{ag:ag,sc:d.tot[i]||0};})
+    .sort(function(a,b){return b.sc-a.sc;});
+  var rC=rd.map(function(r){return r.sc>=75?'#28a745':r.sc>=60?'#17a2b8':r.sc>=40?'#ffc107':'#dc3545';});
+
+  // C9: Ranking barras horizontales
+  Plotly.newPlot('c9',[{x:rd.map(function(r){return r.sc;}),
+    y:rd.map(function(r){return r.ag.split(' ')[0]+' '+r.ag.split(' ')[1];}),
+    type:'bar',orientation:'h',marker:{color:rC,opacity:0.85},
+    text:rd.map(function(r){return r.sc.toFixed(1)+'%';}),
+    textposition:'outside',textfont:{color:'#c9d1d9'},
+    hovertemplate:'<b>%{y}</b><br>Score: %{x:.1f}%<extra></extra>'}],
+  Object.assign({},LO,{margin:{t:20,b:40,l:150,r:60},
+    xaxis:Object.assign({},LO.xaxis,{range:[0,115],ticksuffix:'%',title:'Score (%)'}),
+    yaxis:Object.assign({},LO.yaxis,{title:''}),
+    shapes:[
+      {type:'line',y0:-0.5,y1:rd.length-0.5,x0:60,x1:60,line:{color:'#ffc107',dash:'dash',width:1.5}},
+      {type:'line',y0:-0.5,y1:rd.length-0.5,x0:75,x1:75,line:{color:'#28a745',dash:'dot',width:1.5}}
+    ]}),PC);
+
+  // C10: Comparativo productividad (barras)
+  var b2=gBase();
+  if(b2&&b2.length){
+    var ags2=b2.map(function(d){return d.ag.split(' ')[0];});
+    Plotly.newPlot('c10',[{name:'Productividad %',type:'bar',x:ags2,
+      y:b2.map(function(d){return d.pr;}),
+      marker:{color:b2.map(function(d){return d.pr>=75?'#28a745':d.pr>=50?'#17a2b8':d.pr>=25?'#ffc107':'#dc3545';}),opacity:0.85},
+      hovertemplate:'%{x}<br>Prod: %{y}%<extra></extra>'}],
+    Object.assign({},LO,{
+      xaxis:Object.assign({},LO.xaxis,{tickangle:-35,title:'Agente'}),
+      yaxis:Object.assign({},LO.yaxis,{range:[0,115],ticksuffix:'%',title:'Productividad %'}),
+      shapes:[{type:'line',x0:-0.5,x1:ags2.length-0.5,y0:60,y1:60,line:{color:'#ffc107',dash:'dash',width:1.5}}]}),PC);
+  }
+
+  // Lista ranking
+  var medals=['🥇','🥈','🥉'];
+  var html='<ul class="rl">';
+  rd.forEach(function(r,i){
+    var col=r.sc>=75?'#28a745':r.sc>=60?'#17a2b8':r.sc>=40?'#ffc107':'#dc3545';
+    var medal=medals[i]||('<span style="color:var(--mu);font-weight:700">#'+(i+1)+'</span>');
+    html+='<li class="ri"><div class="rp">'+medal+'</div><div class="rw">'+
+      '<div class="rn2">'+r.ag+'</div>'+
+      '<div class="rb" style="width:'+r.sc.toFixed(0)+'%;background:linear-gradient(90deg,'+col+','+col+'88)"></div>'+
+      '</div><div class="rs" style="color:'+col+'">'+r.sc.toFixed(1)+'%</div></li>';
+  });
+  html+='</ul>';
+  document.getElementById('rl2').innerHTML=html;
+}
+
+// ── ALERTAS ──────────────────────────────────────────
+function fltA(tipo){
+  var f=ALT;
+  var lbl='Todos los agentes';
+  if(tipo==='critico'){f=ALT.filter(function(a){return a.est==='critico';});lbl='🔴 '+f.length+' agente(s) CRÍTICO';}
+  else if(tipo==='atencion'){f=ALT.filter(function(a){return a.est==='atencion';});lbl='🟡 '+f.length+' agente(s) EN ATENCIÓN';}
+  else if(tipo==='tendencia'){f=ALT.filter(function(a){return a.tr.indexOf('▼')>=0;});lbl='📉 '+f.length+' agente(s) con caída';}
+  else if(tipo==='norma'){f=ALT.filter(function(a){return a.est==='norma';});lbl='🟢 '+f.length+' agente(s) EN NORMA';}
+  document.getElementById('acnt').textContent=lbl;
+  var bm={'critico':'bdr','atencion':'bdy','norma':'bdg'};
+  var rm={'critico':'rc','atencion':'ra','norma':'rn'};
+  var html='';
+  f.forEach(function(a){
+    var idx=ALT.indexOf(a);
+    html+='<tr class="'+(rm[a.est]||'')+'" onclick="showPlan('+idx+')" style="cursor:pointer">'+
+      '<td><strong>'+a.ag+'</strong></td>'+
+      '<td><strong>'+a.oc+'</strong></td>'+
+      '<td style="color:'+(a.tr.indexOf('▼')>=0?'#ff6b6b':'#06d6a0')+'">'+a.tr+'</td>'+
+      '<td><span class="bd '+(bm[a.est]||'')+'">'+a.lbl+'</span></td>'+
+      '<td style="color:var(--mu);font-size:.77rem">'+a.ac+'</td></tr>';
+  });
+  document.getElementById('ab2').innerHTML=html;
+}
+
+function showPlan(idx){
+  var a=ALT[idx];
+  var cmap={critico:'#dc3545',atencion:'#ffc107',norma:'#28a745'};
+  var col=cmap[a.est]||'#17a2b8';
+  var steps=a.plan.map(function(s,i){
+    return '<div class="pi"><div class="pn" style="background:'+col+'">'+(i+1)+'</div><div>'+s+'</div></div>';
+  }).join('');
+  document.getElementById('pp').innerHTML=
+    '<div class="pc" style="border-left-color:'+col+'">'+
+    '<h4 style="color:'+col+'">📋 Plan de Acción — '+a.ag+'</h4>'+
+    '<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">'+
+    '<span class="bd" style="background:'+col+'22;color:'+col+';border:1px solid '+col+'">'+a.oc+'</span>'+
+    '<span class="bd bdr" style="background:#1e2a3a;color:var(--mu);border:1px solid var(--bd)">'+a.tr+'</span>'+
+    '</div>'+steps+'</div>';
+}
+
+// ── INIT ─────────────────────────────────────────────
+window.onload=function(){
+  renderKPIs();
+  renderMonthly();
+  renderGauge();
+  renderHeatmap();
+  renderWeekly();
+  fltA('all');
+};
+</script>
+</body>
+</html>
+
